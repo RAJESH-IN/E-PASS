@@ -1,4 +1,4 @@
-# 🪪 MyPass — Access Management System
+# 🪪 E-PASS — Access Management System
 
 > **One platform. Every person, asset and vehicle on your site — searchable, trackable, and always up to date.**
 
@@ -23,11 +23,11 @@ This information is typically scattered across spreadsheets, paper logbooks, Wha
 
 ### The Vision
 
-**MyPass** was built to solve exactly this. It is a unified access management registry that consolidates every person, asset and vehicle into a single searchable platform. A security guard, HR manager, or site supervisor can open one screen, type a name or badge number, and instantly see everything they need to know.
+**E-PASS** was built to solve exactly this. It is a unified access management registry that consolidates every person, asset and vehicle into a single searchable platform. A security guard, HR manager, or site supervisor can open one screen, type a name or badge number, and instantly see everything they need to know.
 
 ### Who It's For
 
-| User | How they use MyPass |
+| User | How they use E-PASS |
 |------|---------------------|
 | **Security Officers** | Verify who is on site, check access status, find badge numbers |
 | **HR Managers** | Register new employees and contractors, track expiry dates |
@@ -66,10 +66,10 @@ This information is typically scattered across spreadsheets, paper logbooks, Wha
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  🪪 MyPass    Access Management        [Dashboard]  [+ Register] │  ← Navbar
+│  🪪 E-PASS    Access Management        [Dashboard]  [+ Register] │  ← Navbar
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                   │
-│          MyPass Search                                            │  ← Hero
+│          E-PASS Search                                            │  ← Hero
 │          Search across employees, contractors, equipment...       │
 │                                                                   │
 │   ┌─────────────────────────────────────────────────────────┐   │
@@ -118,7 +118,7 @@ This information is typically scattered across spreadsheets, paper logbooks, Wha
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  🪪 MyPass    Access Management        [Dashboard]  [+ Register] │
+│  🪪 E-PASS    Access Management        [Dashboard]  [+ Register] │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                   │
 │  ← Back to Search                                                 │
@@ -208,7 +208,7 @@ SearchController.GlobalSearch()
               .ToListAsync()
                     │
                     ▼
-             SQL Server — MyPassDB
+             SQL Server — E-PASSDB
              (3 parallel LINQ queries)
                     │
                     ▼
@@ -297,8 +297,8 @@ Employees (master person table)
 PassLogs (audit trail — every create/update/delete logged)
   ┌─────────────────────────────────────────────────────┐
   │ EntityType │ EntityId │ Action  │ PerformedBy       │
-  │ Employee   │    1     │ Created │ admin@mypass.com  │
-  │ Vehicle    │    1     │ Updated │ admin@mypass.com  │
+  │ Employee   │    1     │ Created │ admin@E-PASS.com  │
+  │ Vehicle    │    1     │ Updated │ admin@E-PASS.com  │
   └─────────────────────────────────────────────────────┘
 ```
 
@@ -357,7 +357,7 @@ PassLogs (audit trail — every create/update/delete logged)
 ║  AutoMapper 12 — Entity ↔ DTO (flattens navigation props)      ║
 ║  ApiResponse<T> — consistent { success, message, data } shape  ║
 ║                                                                  ║
-║  MyPassDbContext (EF Core 8)                                    ║
+║  E-PASSDbContext (EF Core 8)                                    ║
 ║  · Explicit HasColumnName() on every column                     ║
 ║  · PersonType / VehicleType mapped (not generic "Type")         ║
 ║  · SetNull FK behaviour on employee deletion                    ║
@@ -368,7 +368,7 @@ PassLogs (audit trail — every create/update/delete logged)
                        ║
 ╔══════════════════════╩═══════════════════════════════════════════╗
 ║  DATA TIER                                                       ║
-║  SQL Server — MyPassDB                                           ║
+║  SQL Server — E-PASSDB                                           ║
 ║                                                                  ║
 ║  ┌────────────┐  ┌───────────┐  ┌──────────┐  ┌────────────┐  ║
 ║  │ Employees  │  │ Equipment │  │ Vehicles │  │ PassLogs   │  ║
@@ -416,7 +416,7 @@ Controller (validates ModelState, checks duplicates)
 AutoMapper (DTO → Entity or Entity → DTO)
     │
     ▼
-MyPassDbContext (EF Core — explicit column mappings)
+E-PASSDbContext (EF Core — explicit column mappings)
     │
     ▼
 SQL Server (parameterised queries, UNIQUE + FK constraints)
@@ -452,7 +452,7 @@ Browser (localhost:4200)
          │
          │  Entity Framework Core 8 · AutoMapper 12
          ▼
-SQL Server — MyPassDB
+SQL Server — E-PASSDB
   ├─ Employees   (PersonType: Employee | Contractor)
   ├─ Equipment   (FK → Employees, SET NULL on delete)
   ├─ Vehicles    (FK → Employees, SET NULL on delete)
@@ -473,12 +473,12 @@ SQL Server — MyPassDB
 ```sql
 -- Open SQL Server Management Studio
 -- File → Open → database/01_create_tables.sql → Execute (F5)
--- Creates MyPassDB with all tables + 6 seed records each
+-- Creates E-PASSDB with all tables + 6 seed records each
 ```
 
 Verify:
 ```sql
-USE MyPassDB;
+USE E-PASSDB;
 SELECT COUNT(*) FROM Employees;  -- 6
 SELECT COUNT(*) FROM Equipment;  -- 6
 SELECT COUNT(*) FROM Vehicles;   -- 6
@@ -486,7 +486,7 @@ SELECT COUNT(*) FROM Vehicles;   -- 6
 
 ### 2 — Backend
 ```bash
-cd backend/MyPass.API
+cd backend/E-PASS.API
 dotnet restore
 dotnet run
 # ✅ Database connection: OK
@@ -497,7 +497,7 @@ dotnet run
 
 ### 3 — Frontend
 ```bash
-cd frontend/mypass-app
+cd frontend/E-PASS-app
 npm install
 npm start        # ng serve --proxy-config proxy.conf.json
 ```
@@ -509,12 +509,12 @@ Open **http://localhost:4200** 🎉
 ## 📁 Project Structure
 
 ```
-MyPass/
+E-PASS/
 ├── 📂 database/
 │   └── 01_create_tables.sql          ← Run this first
 │
 ├── 📂 backend/
-│   └── MyPass.API/
+│   └── E-PASS.API/
 │       ├── Controllers/
 │       │   ├── SearchController.cs   ← Cross-category search
 │       │   ├── EmployeesController.cs
@@ -522,14 +522,14 @@ MyPass/
 │       │   └── VehiclesController.cs
 │       ├── Models/                   ← EF Core entities
 │       ├── DTOs/Dtos.cs              ← DTOs + ApiResponse<T>
-│       ├── Data/MyPassDbContext.cs   ← Explicit column mapping
+│       ├── Data/E-PASSDbContext.cs   ← Explicit column mapping
 │       ├── Mappings/MappingProfile.cs ← AutoMapper
 │       ├── Properties/launchSettings.json ← Locks port 61877
 │       ├── Program.cs               ← DI · CORS · Health check
 │       └── appsettings.json
 │
 └── 📂 frontend/
-    └── mypass-app/
+    └── E-PASS-app/
         ├── proxy.conf.json           ← /api/* → localhost:61877
         ├── angular.json
         ├── package.json              ← npm start uses proxy
@@ -614,7 +614,7 @@ All endpoints return `ApiResponse<T>`:
 ```json
 {
   "ConnectionStrings": {
-    "MyPassDb": "Server=localhost;Database=MyPassDB;Trusted_Connection=True;TrustServerCertificate=True;"
+    "E-PASSDb": "Server=localhost;Database=E-PASSDB;Trusted_Connection=True;TrustServerCertificate=True;"
   },
   "Urls": "http://localhost:61877"
 }
@@ -639,10 +639,10 @@ All endpoints return `ApiResponse<T>`:
 
 | Symptom | Fix |
 |---------|-----|
-| `ERR_CONNECTION_REFUSED` on `/api` | Backend not running — `dotnet run` in `backend/MyPass.API/` |
+| `ERR_CONNECTION_REFUSED` on `/api` | Backend not running — `dotnet run` in `backend/E-PASS.API/` |
 | `404` on `/api/employees` | Proxy port mismatch — check `proxy.conf.json` target |
 | `500 Internal Server Error` | Open `/health` — shows exact DB error |
-| `Cannot open database 'MyPassDB'` | Run `01_create_tables.sql` in SSMS first |
+| `Cannot open database 'E-PASSDB'` | Run `01_create_tables.sql` in SSMS first |
 | CORS preflight error | `UseCors()` must be first in `Program.cs` |
 | Port changes every VS restart | Add `launchSettings.json` to lock port to 61877 |
 
